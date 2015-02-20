@@ -8,6 +8,7 @@ option(UseStaticBoost "Forces Boost static libraries usage" OFF)
 option(MtTests "Enables pthreads usage for gtest" OFF)
 
 set(METEOR_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
+set(SIMULATOR_ROOT ${METEOR_ROOT}/tools/simulator)
 set(TESTS_DIR ${METEOR_ROOT}/tests)
 set(THIRD_PARTY_DIR ${METEOR_ROOT}/3rdparty)
 
@@ -87,3 +88,6 @@ if (WithTests)
     set(GTest_LIBRARIES gtest gtest_main)
     add_subdirectory(${TESTS_DIR})
 endif ()
+
+# Build simulator
+add_subdirectory(${SIMULATOR_ROOT})
