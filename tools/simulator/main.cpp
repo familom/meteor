@@ -1,8 +1,9 @@
 #include "cluster/resources_config_reader.h"
 #include "cluster/resources_tracker.h"
 #include "scheduler/job.h"
-#include "scheduler/scheduler.h"
+#include "scheduler/fcfs_scheduler.h"
 
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -11,8 +12,8 @@
 
 namespace {
 
-template <typename Tracker>
-Tracker BuildTracker() {
+template <typename TrackerT>
+TrackerT BuildTracker() {
     using namespace Meteor;
 
     const std::string CONFIG =
@@ -23,11 +24,53 @@ Tracker BuildTracker() {
 
     std::istringstream configStream(CONFIG);
 
-    Tracker tracker;
+    TrackerT tracker;
     StreamResourcesConfigReader reader(configStream, tracker);
     reader.Run();
 
     return tracker;
+}
+
+template <typename JobsT>
+void TestFCFSScheduler(const JobsT& jobs) {
+    using namespace Meteor;
+
+    std::cout << "Starting First-Come, First-Served Scheduler test...\n";
+
+    FCFSTracker fcfsTracker = BuildTracker<FCFSTracker>();
+    FCFSScheduler fcfsScheduler(fcfsTracker);
+    size_t numRejected = 0;
+    for (const auto& job : jobs) {
+        Event event = fcfsScheduler.Schedule(job);
+
+        std::cout << "\t Time " << event.Moment
+                  << "\tJob {"
+                  << "duration = " << job.Dur << ", "
+                  << "resource = " << job.ResQuantity
+                  << "}\t";
+
+        switch (event.Type) {
+        case EventType::Rejected: {
+            ++numRejected;
+            std::cout << "REJECTED";
+            break;
+        }
+
+        case EventType::Scheduled: {
+            std::cout << "SCHEDULED";
+            break;
+        }
+
+        default:
+            assert(false);
+        }
+
+        std::cout << std::endl;
+    }
+
+    std::cout << "Finished First-Come, First-Served Scheduler test\n";
+    std::cout << "Stats: \n"
+              << "\tRejected: " << numRejected << std::endl;
 }
 
 } // ns
@@ -44,17 +87,7 @@ int main(int /* argc */, char* /*argv*/[]) {
         {1, 1}
     };
 
-    FCFSTracker fcfsTracker = BuildTracker<FCFSTracker>();
-    FCFSScheduler fcfsScheduler(fcfsTracker);
-    size_t fcfsRejected = 0;
-    for (const auto& job : JOBS) {
-        Event event = fcfsScheduler.Schedule(job);
-        if (event.Type == EventType::Rejected) {
-            ++fcfsRejected;
-        }
-    }
-
-    std::cout << "Rejected by default scheduler: " << fcfsRejected << std::endl;
+    TestFCFSScheduler(JOBS);
 
     return 0;
 }

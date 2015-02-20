@@ -60,9 +60,10 @@ set(METEOR_SRCS
     ${METEOR_ROOT}/src/cluster/resources_tracker.h
     ${METEOR_ROOT}/src/cluster/resources_tracker.cpp
     ${METEOR_ROOT}/src/scheduler/event.h
+    ${METEOR_ROOT}/src/scheduler/fcfs_scheduler.h
+    ${METEOR_ROOT}/src/scheduler/fcfs_scheduler.cpp
     ${METEOR_ROOT}/src/scheduler/job.h
     ${METEOR_ROOT}/src/scheduler/scheduler.h
-    ${METEOR_ROOT}/src/scheduler/scheduler.cpp
     ${METEOR_ROOT}/src/scheduler/time.h
 )
 
