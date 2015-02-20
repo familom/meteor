@@ -4,7 +4,11 @@ Mesosphere programming test.
 
 Ideas.md contains open questions regarding the task.
 
-Simulator demonstrates our scheduler outperformes default by "num of rejected jobs" metrics.
+The main idea behind new scheduler is to disallow burst in either job duration or desired resource consumption.
+To achieve this goal we track all scheduled jobs and calculate average job duration / resource requirements.
+If job scheduler is requested to schedule looks like 'burst' we reject it.
+
+Simulator demonstrates our scheduler outperforms default 'first-come, first-served' scheduler by "num of rejected jobs" metrics.
 
 # Dependencies
 
