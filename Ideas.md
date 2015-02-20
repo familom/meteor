@@ -8,5 +8,6 @@
 
 ## Scheduler
 * Can we wait until job can be scheduled or we have to reject it?
-* Can a job have deadline?
+* Can a job have a deadline?
 * Can scheduler look forward in stream of jobs and schedule a few jobs at a time?
+* Which metrics should shedulers have (num of rejected jobs, time of last finished jobs)?

@@ -4,6 +4,8 @@ Mesosphere programming test.
 
 Ideas.md contains open questions regarding the task.
 
+Simulator demonstrates our scheduler outperformes default by "num of rejected jobs" metrics.
+
 # Dependencies
 
 In order to build Meteor you will need C++11-compliant compiler (g++ and clang are supported),
