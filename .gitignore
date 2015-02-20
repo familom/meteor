@@ -6,3 +6,5 @@ cmake_install.cmake
 GPATH
 GRTAGS
 GTAGS
+
+3rdparty/gtest-1.7.0/Makefile
