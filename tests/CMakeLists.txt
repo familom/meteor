@@ -8,7 +8,6 @@ file(GLOB METEOR_TESTS_SRCS ${METEOR_TESTS_ROOT}/src/*.cpp)
 
 include_directories(
     ${METEOR_ROOT}/src
-    ${METEOR_ROOT}/src/cluster
     ${Boost_INCLUDE_DIRS}
     ${GTest_INCLUDE_DIRS}
 )

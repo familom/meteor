@@ -1,5 +1,5 @@
-#include "resources_config_reader.h"
-#include "resources_tracker.h"
+#include "cluster/resources_config_reader.h"
+#include "cluster/resources_tracker.h"
  
 #include <gtest/gtest.h>
 
