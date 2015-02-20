@@ -17,16 +17,16 @@ public:
     virtual Event Schedule(const Job& job) = 0;
 };
 
-class FIFSTracker : public ResourcesTracker {
+class FCFSTracker : public ResourcesTracker {
 public:
-    FIFSTracker() = default;
+    FCFSTracker();
 
     bool FindFreeNode(const Job& job, Node& node);
 };
 
-class FIFSScheduler : public IScheduler {
+class FCFSScheduler : public IScheduler {
 public:
-    explicit FIFSScheduler(FIFSTracker& tracker);
+    explicit FCFSScheduler(FCFSTracker& tracker);
 
     Event Schedule(const Job& job) override;
 
@@ -45,7 +45,7 @@ private:
         Node ScheduledOn;
     };
 
-    FIFSTracker& Tracker;
+    FCFSTracker& Tracker;
 
     Timestamp CurTime;
 

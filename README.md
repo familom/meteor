@@ -17,3 +17,11 @@ cmake .
 make -j4
 make check
 ```
+
+# How to run simulator
+
+In the root Meteor directory run:
+```
+cmake .
+make simulate
+```

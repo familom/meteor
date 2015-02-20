@@ -44,7 +44,6 @@ void StreamResourcesConfigReader::Run() {
         Node nodeName(items[1]);
         Resource resourceId(0);
         while (resourceId < Tracker.GetNumResources()) {
-            std::cout << items[2 + resourceId] << std::endl;
             ResourceQuantity quantity = std::stoull(items[2 + resourceId]);
             Tracker.Add(nodeName, resourceId, quantity);
             ++resourceId;

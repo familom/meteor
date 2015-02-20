@@ -3,7 +3,12 @@
 
 namespace Meteor {
 
-bool FIFSTracker::FindFreeNode(const Job& job, Node& node) {
+FCFSTracker::FCFSTracker()
+    : ResourcesTracker(1)
+{
+}
+
+bool FCFSTracker::FindFreeNode(const Job& job, Node& node) {
     for (const auto& it : State) {
         if (Acquire(it.first, 0, job.ResQuantity)) {
             node = it.first;
@@ -14,13 +19,13 @@ bool FIFSTracker::FindFreeNode(const Job& job, Node& node) {
     return false;
 }
 
-FIFSScheduler::FIFSScheduler(FIFSTracker& tracker)
+FCFSScheduler::FCFSScheduler(FCFSTracker& tracker)
     : Tracker(tracker)
     , CurTime(0)
 {
 }
 
-void FIFSScheduler::CleanFinished() {
+void FCFSScheduler::CleanFinished() {
     while (!Jobs.empty() && CurTime == Jobs.begin()->first) {
         const ScheduledJob& job = Jobs.begin()->second;
         Tracker.Release(job.ScheduledOn, 0, job.ResQuantity);
@@ -28,7 +33,7 @@ void FIFSScheduler::CleanFinished() {
     }
 }
 
-Event FIFSScheduler::Schedule(const Job& job) {
+Event FCFSScheduler::Schedule(const Job& job) {
     CleanFinished();
 
     Node node;
