@@ -28,7 +28,7 @@ public:
 /// Simple thread-unsafe resource tracker.
 class ResourcesTracker : public IResourcesTracker {
 public:
-    ResourcesTracker(size_t numResources);
+    explicit ResourcesTracker(size_t numResources);
 
     size_t GetNumNodes() const override {
         return State.size();
