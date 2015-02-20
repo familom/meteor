@@ -40,7 +40,7 @@ Event FCFSScheduler::Schedule(const Job& job) {
     if (Tracker.FindFreeNode(job, node)) {
         // Resource is consumed here
         Jobs.insert(Timeline::value_type(CurTime + job.Dur, ScheduledJob(job, node)));
-        return Event(EventType::Rejected, CurTime++);
+        return Event(EventType::Scheduled, CurTime++);
     } else {
         return Event(EventType::Rejected, CurTime++);
     }
