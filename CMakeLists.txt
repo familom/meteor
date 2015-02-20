@@ -46,13 +46,16 @@ endif ()
 # Find Boost
 set(Boost_USE_MULTITHREADED ON)
 find_package(Boost 1.50.0 COMPONENTS
-    REQUIRED filesystem
+    REQUIRED regex
 )
 include_directories(${Boost_INCLUDE_DIRS})
 
 # Sources
 set(METEOR_SRCS
     ${METEOR_ROOT}/src/cluster/node.h
+    ${METEOR_ROOT}/src/cluster/resource.h
+    ${METEOR_ROOT}/src/cluster/resources_config_reader.h
+    ${METEOR_ROOT}/src/cluster/resources_config_reader.cpp
     ${METEOR_ROOT}/src/cluster/resources_tracker.h
     ${METEOR_ROOT}/src/cluster/resources_tracker.cpp
 )

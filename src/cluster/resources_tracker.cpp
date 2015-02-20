@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <stdexcept>
+#include <string>
 
 
 namespace Meteor {
@@ -14,7 +15,7 @@ ResourcesTracker::ResourcesTracker(size_t numResources)
 /// @throw runtime_error
 void ResourcesTracker::ValidateResource(const Resource& resource) {
     if (resource >= NumResources) {
-        throw std::runtime_error("Invalid resource id.");
+        throw std::runtime_error("Invalid resource id " + std::to_string(resource));
     }
 }
 
