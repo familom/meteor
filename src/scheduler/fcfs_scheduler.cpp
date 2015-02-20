@@ -1,7 +1,5 @@
 #include "fcfs_scheduler.h"
 
-#include <iostream>
-
 
 namespace Meteor {
 
@@ -23,27 +21,11 @@ bool FCFSTracker::FindFreeNode(const Job& job, Node& node) {
 
 FCFSScheduler::FCFSScheduler(FCFSTracker& tracker)
     : Tracker(tracker)
-    , CurTime(0)
 {
 }
 
-EventList FCFSScheduler::CleanFinished() {
-    EventList events;
-    while (!Jobs.empty() && CurTime == Jobs.begin()->first) {
-        const ScheduledJob& job = Jobs.begin()->second;
-
-        Event event(EventType::Finished, CurTime, job.ScheduledOn);
-        events.push_back(event);
-
-        Tracker.Release(job.ScheduledOn, 0, job.ResQuantity);
-        Jobs.erase(Jobs.begin());
-    }
-
-    return events;
-}
-
 EventList FCFSScheduler::Schedule(const Job& job) {
-    EventList events = CleanFinished();
+    EventList events = ClearFinished(Tracker);
 
     Node node;
     if (Tracker.FindFreeNode(job, node)) {

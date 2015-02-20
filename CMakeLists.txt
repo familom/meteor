@@ -64,6 +64,9 @@ set(METEOR_SRCS
     ${METEOR_ROOT}/src/scheduler/fcfs_scheduler.cpp
     ${METEOR_ROOT}/src/scheduler/job.h
     ${METEOR_ROOT}/src/scheduler/scheduler.h
+    ${METEOR_ROOT}/src/scheduler/scheduler.cpp
+    ${METEOR_ROOT}/src/scheduler/stat_scheduler.h
+    ${METEOR_ROOT}/src/scheduler/stat_scheduler.cpp
     ${METEOR_ROOT}/src/scheduler/time.h
 )
 

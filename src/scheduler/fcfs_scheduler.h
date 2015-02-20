@@ -6,8 +6,6 @@
 
 #include "cluster/resources_tracker.h"
 
-#include <map>
-
 
 namespace Meteor {
 
@@ -18,33 +16,14 @@ public:
     bool FindFreeNode(const Job& job, Node& node);
 };
 
-class FCFSScheduler : public IScheduler {
+class FCFSScheduler : public Scheduler {
 public:
     explicit FCFSScheduler(FCFSTracker& tracker);
 
     EventList Schedule(const Job& job) override;
 
 private:
-    EventList CleanFinished();
-
-private:
-    struct ScheduledJob : public Job {
-        explicit ScheduledJob(const Job& job, const Node& node)
-            : ScheduledOn(node)
-        {
-            Dur = job.Dur;
-            ResQuantity = job.ResQuantity;
-        }
-
-        Node ScheduledOn;
-    };
-
     FCFSTracker& Tracker;
-
-    Timestamp CurTime;
-
-    using Timeline = std::map<Timestamp, ScheduledJob>;
-    Timeline Jobs;
 };
 
 } // Meteor

@@ -2,6 +2,7 @@
 #include "cluster/resources_tracker.h"
 #include "scheduler/job.h"
 #include "scheduler/fcfs_scheduler.h"
+#include "scheduler/stat_scheduler.h"
 
 #include <cassert>
 #include <iostream>
@@ -31,17 +32,17 @@ TrackerT BuildTracker() {
     return tracker;
 }
 
-template <typename JobsT>
-void TestFCFSScheduler(const JobsT& jobs) {
+template <typename TrackerT, typename SchedulerT, typename JobsT>
+void TestScheduler(const JobsT& jobs, const std::string& schedulerName) {
     using namespace Meteor;
 
-    std::cout << "Starting First-Come, First-Served Scheduler test...\n";
+    std::cout << "Starting " << schedulerName << " Test...\n";
 
-    FCFSTracker fcfsTracker = BuildTracker<FCFSTracker>();
-    FCFSScheduler fcfsScheduler(fcfsTracker);
+    TrackerT tracker = BuildTracker<TrackerT>();
+    SchedulerT scheduler(tracker);
     size_t numRejected = 0;
     for (const auto& job : jobs) {
-        EventList events = fcfsScheduler.Schedule(job);
+        EventList events = scheduler.Schedule(job);
 
         if (!events.empty()) {
             std::cout << "\t Events at " << events.front().HappenedAt << ", "
@@ -77,7 +78,7 @@ void TestFCFSScheduler(const JobsT& jobs) {
         }
     }
 
-    std::cout << "Finished First-Come, First-Served Scheduler test\n";
+    std::cout << "Finished " << schedulerName << " Test\n";
     std::cout << "Stats: \n"
               << "\tRejected: " << numRejected << std::endl;
 }
@@ -91,7 +92,7 @@ int main(int /* argc */, char* /*argv*/[]) {
     const std::vector<Job> JOBS = {
         {1, 1},
         {1, 1},
-        {10, 1},
+        {2, 1},
         {10, 1},
         {10, 1},
         {1, 1},
@@ -102,7 +103,11 @@ int main(int /* argc */, char* /*argv*/[]) {
         {1, 1},
     };
 
-    TestFCFSScheduler(JOBS);
+    TestScheduler<FCFSTracker, FCFSScheduler>(JOBS, "First-Come, First-Server Scheduler");
+
+    std::cout << std::endl;
+
+    TestScheduler<StatTracker, StatScheduler>(JOBS, "Statistical Scheduler");
 
     return 0;
 }
