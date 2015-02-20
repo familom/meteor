@@ -56,4 +56,24 @@ bool ResourcesTracker::Acquire(const Node& node, const Resource& resource,
     return false;
 }
 
+bool ResourcesTracker::Release(const Node& node, const Resource& resource,
+                               const ResourceQuantity& quantity) {
+    ValidateResource(resource);
+
+    auto it = State.find(node);
+    if (it == State.end()) {
+        return false;
+    }
+
+    NodeState& nodeState = it->second;
+    assert(nodeState.Current.size() == NumResources);
+
+    if (nodeState.All[resource] - nodeState.Current[resource] <= quantity) {
+        nodeState.Current[resource] += quantity;
+        return true;
+    }
+
+    return false;
+}
+
 } // Meteor

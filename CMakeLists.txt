@@ -59,6 +59,11 @@ set(METEOR_SRCS
     ${METEOR_ROOT}/src/cluster/resources_config_reader.cpp
     ${METEOR_ROOT}/src/cluster/resources_tracker.h
     ${METEOR_ROOT}/src/cluster/resources_tracker.cpp
+    ${METEOR_ROOT}/src/scheduler/event.h
+    ${METEOR_ROOT}/src/scheduler/job.h
+    ${METEOR_ROOT}/src/scheduler/scheduler.h
+    ${METEOR_ROOT}/src/scheduler/scheduler.cpp
+    ${METEOR_ROOT}/src/scheduler/time.h
 )
 
 # Compile the library
@@ -66,7 +71,7 @@ add_library(meteor
     ${METEOR_SRCS}
 )
 
-include_directories(${METEOR_ROOT})
+include_directories(${METEOR_ROOT}/src)
 
 # Add dependencies
 target_link_libraries(meteor

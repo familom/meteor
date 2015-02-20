@@ -23,6 +23,9 @@ public:
     /// @return true if resource was consumed and false otherwise.
     virtual bool Acquire(const Node& node, const Resource& resource,
                          const ResourceQuantity& quantity) = 0;
+
+    virtual bool Release(const Node& node, const Resource& resource,
+                         const ResourceQuantity& quantity) = 0;
 };
 
 /// Simple thread-unsafe resource tracker.
@@ -50,6 +53,9 @@ public:
     ///
     /// @return true if resource was consumed and false otherwise.
     bool Acquire(const Node& node, const Resource& resource,
+                 const ResourceQuantity& quantity) override;
+
+    bool Release(const Node& node, const Resource& resource,
                  const ResourceQuantity& quantity) override;
 
 private:
