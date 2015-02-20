@@ -18,7 +18,7 @@ link_directories(
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 
-# Compile the application.
+# Compile the application
 add_executable(meteor_test
     ${METEOR_TESTS_SRCS}
 )
