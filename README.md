@@ -27,3 +27,7 @@ In the root Meteor directory run:
 cmake .
 make simulate
 ```
+
+# TODO
+* Implement multi-resource scheduler
+* Implement loadable job streams
