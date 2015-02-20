@@ -24,6 +24,7 @@ void ResourcesTracker::Add(const Node& node, const Resource& resource,
 
     auto it = State.find(node);
     if (it != State.end()) {
+        NodeState& nodeState = it->second;
         nodeState.All[resource] += quantity;
         nodeState.Current[resource] += quantity;
     } else {
