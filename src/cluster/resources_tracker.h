@@ -58,7 +58,7 @@ private:
 
 protected:
     struct NodeState {
-        NodeState(size_t numResources)
+        explicit NodeState(size_t numResources)
             : All(numResources)
             , Current(numResources)
         {
