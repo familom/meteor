@@ -22,10 +22,10 @@ class FCFSScheduler : public IScheduler {
 public:
     explicit FCFSScheduler(FCFSTracker& tracker);
 
-    Event Schedule(const Job& job) override;
+    EventList Schedule(const Job& job) override;
 
 private:
-    void CleanFinished();
+    EventList CleanFinished();
 
 private:
     struct ScheduledJob : public Job {

@@ -10,7 +10,7 @@ class IScheduler {
 public:
     virtual ~IScheduler() = default;
 
-    virtual Event Schedule(const Job& job) = 0;
+    virtual EventList Schedule(const Job& job) = 0;
 };
 
 } // Meteor

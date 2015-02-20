@@ -1,5 +1,7 @@
 #include "fcfs_scheduler.h"
 
+#include <iostream>
+
 
 namespace Meteor {
 
@@ -25,25 +27,37 @@ FCFSScheduler::FCFSScheduler(FCFSTracker& tracker)
 {
 }
 
-void FCFSScheduler::CleanFinished() {
+EventList FCFSScheduler::CleanFinished() {
+    EventList events;
     while (!Jobs.empty() && CurTime == Jobs.begin()->first) {
         const ScheduledJob& job = Jobs.begin()->second;
+
+        Event event(EventType::Finished, CurTime, job.ScheduledOn);
+        events.push_back(event);
+
         Tracker.Release(job.ScheduledOn, 0, job.ResQuantity);
         Jobs.erase(Jobs.begin());
     }
+
+    return events;
 }
 
-Event FCFSScheduler::Schedule(const Job& job) {
-    CleanFinished();
+EventList FCFSScheduler::Schedule(const Job& job) {
+    EventList events = CleanFinished();
 
     Node node;
     if (Tracker.FindFreeNode(job, node)) {
         // Resource is consumed here
-        Jobs.insert(Timeline::value_type(CurTime + job.Dur, ScheduledJob(job, node)));
-        return Event(EventType::Scheduled, CurTime++);
+        ScheduledJob scheduledJob(job, node);
+        Jobs.insert(Timeline::value_type(CurTime + job.Dur, scheduledJob));
+        events.push_back(Event(EventType::Scheduled, CurTime, node));
     } else {
-        return Event(EventType::Rejected, CurTime++);
+        events.push_back(Event(EventType::Rejected, CurTime, Node()));
     }
+
+    ++CurTime;
+
+    return events;
 }
 
 } // Meteor

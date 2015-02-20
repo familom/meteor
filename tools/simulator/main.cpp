@@ -41,31 +41,40 @@ void TestFCFSScheduler(const JobsT& jobs) {
     FCFSScheduler fcfsScheduler(fcfsTracker);
     size_t numRejected = 0;
     for (const auto& job : jobs) {
-        Event event = fcfsScheduler.Schedule(job);
+        EventList events = fcfsScheduler.Schedule(job);
 
-        std::cout << "\t Time " << event.Moment
-                  << "\tJob {"
-                  << "duration = " << job.Dur << ", "
-                  << "resource = " << job.ResQuantity
-                  << "}\t";
+        if (!events.empty()) {
+            std::cout << "\t Events at " << events.front().HappenedAt << ", "
+                      << "scheduling job {"
+                      << "duration = " << job.Dur << ", "
+                      << "resource = " << job.ResQuantity
+                      << "}:\n";
 
-        switch (event.Type) {
-        case EventType::Rejected: {
-            ++numRejected;
-            std::cout << "REJECTED";
-            break;
+            for (const auto& event : events) {
+                switch (event.Type) {
+                case EventType::Rejected: {
+                    ++numRejected;
+                    std::cout << "\t\tjob REJECTED";
+                    break;
+                }
+
+                case EventType::Scheduled: {
+                    std::cout << "\t\tjob SCHEDULED on " << event.HappenedOn;
+                    break;
+                }
+
+                case EventType::Finished: {
+                    std::cout << "\t\tjob FINISHED on " << event.HappenedOn;
+                    break;
+                }
+
+                default:
+                    assert(false);
+                }
+
+                std::cout << "\n";
+            }
         }
-
-        case EventType::Scheduled: {
-            std::cout << "SCHEDULED";
-            break;
-        }
-
-        default:
-            assert(false);
-        }
-
-        std::cout << std::endl;
     }
 
     std::cout << "Finished First-Come, First-Served Scheduler test\n";
@@ -78,13 +87,19 @@ void TestFCFSScheduler(const JobsT& jobs) {
 int main(int /* argc */, char* /*argv*/[]) {
     using namespace Meteor;
 
+    // (duration, resource requirements)
     const std::vector<Job> JOBS = {
         {1, 1},
         {1, 1},
-        {100, 1},
+        {10, 1},
+        {10, 1},
+        {10, 1},
         {1, 1},
         {1, 1},
-        {1, 1}
+        {1, 1},
+        {1, 1},
+        {1, 1},
+        {1, 1},
     };
 
     TestFCFSScheduler(JOBS);
