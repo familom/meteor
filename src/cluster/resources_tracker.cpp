@@ -29,6 +29,8 @@ void ResourcesTracker::Add(const Node& node, const Resource& resource,
         nodeState.Current[resource] += quantity;
     } else {
         NodeState nodeState(NumResources);
+        nodeState.All[resource] = quantity;
+        nodeState.Current[resource] = quantity;
         State.insert(Resources::value_type(node, nodeState));
     }
 }
