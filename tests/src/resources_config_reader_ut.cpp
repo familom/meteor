@@ -15,6 +15,6 @@ TEST(ResourcesConfigReaderTest, testValidConfig) {
     Meteor::StreamResourcesConfigReader reader(configStream, tracker);
 
     ASSERT_NO_THROW(reader.Run());
-    EXPECT_EQ(1, tracker.GetNumNodes());
+    EXPECT_EQ(1u, tracker.GetNumNodes());
     EXPECT_TRUE(tracker.Acquire("nodeA", 0, 1));
 }
