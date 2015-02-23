@@ -92,7 +92,7 @@ int main(int /* argc */, char* /*argv*/[]) {
     const std::vector<Job> JOBS = {
         {1, 1},
         {1, 1},
-        {2, 1},
+        {10, 1},
         {10, 1},
         {10, 1},
         {1, 1},
